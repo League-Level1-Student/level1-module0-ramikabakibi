@@ -8,6 +8,7 @@ int y=(int)random(1000-10)+10;
 int yspeed=-10;
 int speed=10;
 int x;
+boolean gameover=false;
 
 
 void setup(){
@@ -31,7 +32,15 @@ void draw(){
   stroke(#E3292C);
   
   ellipse(x+=speed,y+=yspeed,25,25);
-  
+  if(gameover){
+    x=500;
+  y=500;
+  yspeed=0;
+  speed=0;
+  textSize(30);
+  text("Game over!!!!", 500,300);
+  return;
+  }
   if(x>=width){
     speed=-10;
     
@@ -44,12 +53,16 @@ void draw(){
 if(y<=0){
   yspeed=10;
 }
-else if(y>height){
+else if(intersects(x, y, paddleX, paddleY, 230)){
 
-  intersects(x, y, paddleX, paddleY, 230);
+
   yspeed=-10;
+  speed=-10;
 }
-
+else if(y>height+240){
+  gameover=true;
+}
+  
 }
 boolean intersects(int ballX, int ballY, int paddleX, int paddleY, int paddleLength) {
      if (ballY > paddleY && ballX > paddleX && ballX < paddleX + paddleLength)
